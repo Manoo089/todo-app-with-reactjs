@@ -3,12 +3,12 @@ import "./App.css";
 import { useState } from "react";
 
 function App() {
+  
   const [id, setId] = useState(1);
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState([{ id: 1, title: "todo", done: false }]);
 
   const incrementId = () => setId((prevId) => (prevId += 1));
   
-
   const handleAddTodo = event => {
     const e = event.target;
 
@@ -19,6 +19,8 @@ function App() {
     }
 
   };
+
+  const handleDeleteTodo = (id) => setTodos(todos.filter((todo) => todo.id !== id));
 
   return (
     <div className="App">
@@ -44,7 +46,7 @@ function App() {
             <div key={todo.id} className="TodoItemContainer">
               <input type="checkbox"></input>
               <p className="TodoItemText">{todo.title}</p>
-              <button className="TodoItemDeleteButton">&#x2715;</button>
+              <button onClick={() => handleDeleteTodo(todo.id)} className="TodoItemDeleteButton">&#x2715;</button>
             </div>
           ))}
 
