@@ -1,7 +1,15 @@
 import logo from "./logo.svg";
 import "./App.css";
+import { useState } from "react";
 
 function App() {
+  const [todos, setTodos] = useState([{ title: "test todo", id: 1, done: false }]);
+
+  const handleAddTodo = event => {
+    event.key === "Enter" && setTodos([...todos, { title: event.target.value, done: false }]);
+    event.target.value = "";
+  };
+
   return (
     <div className="App">
       <div className="HeaderContainer">
@@ -16,17 +24,20 @@ function App() {
 
       <div className="MainContainer">
         <div className="TodoInputContainer">
-          <input placeholder="Hier Todo hinzufügen" className="InputItem" />
+          <input onKeyDown={handleAddTodo} placeholder="Hier Todo hinzufügen" className="InputItem" />
         </div>
 
         <div className="TodoListContainer">
           <h2>Zu erledigen:</h2>
 
-          <div className="TodoItemContainer">
-            <input type="checkbox"></input>
-            <p className="TodoItemText">Todo</p>
-            <button className="TodoItemDeleteButton">&#x2715;</button>
-          </div>
+          {todos.map(todo => (
+            <div className="TodoItemContainer">
+              <input type="checkbox"></input>
+              <p className="TodoItemText">{todo.title}</p>
+              <button className="TodoItemDeleteButton">&#x2715;</button>
+            </div>
+          ))}
+
         </div>
 
         <div className="TodoListContainer">
