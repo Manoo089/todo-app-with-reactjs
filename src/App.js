@@ -3,11 +3,21 @@ import "./App.css";
 import { useState } from "react";
 
 function App() {
-  const [todos, setTodos] = useState([{ title: "test todo", id: 1, done: false }]);
+  const [id, setId] = useState(1);
+  const [todos, setTodos] = useState([]);
+
+  const incrementId = () => setId((prevId) => (prevId += 1));
+  
 
   const handleAddTodo = event => {
-    event.key === "Enter" && setTodos([...todos, { title: event.target.value, done: false }]);
-    event.target.value = "";
+    const e = event.target;
+
+    if (event.key === "Enter") {
+      incrementId();
+      setTodos([...todos, { id: id, title: e.value, done: false }]);
+      e.value = "";
+    }
+
   };
 
   return (
@@ -31,7 +41,7 @@ function App() {
           <h2>Zu erledigen:</h2>
 
           {todos.map(todo => (
-            <div className="TodoItemContainer">
+            <div key={todo.id} className="TodoItemContainer">
               <input type="checkbox"></input>
               <p className="TodoItemText">{todo.title}</p>
               <button className="TodoItemDeleteButton">&#x2715;</button>
